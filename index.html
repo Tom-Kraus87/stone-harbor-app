@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Stone Harbor</title>
+<meta name="description" content="Local jobs within 2 hours of Chesterfield and St. Clair Shores">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#13223f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Stone Harbor">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="favicon-32.png">
+<meta name="robots" content="noindex">
+<style>
+:root{--bg:#eef2f0;--panel:#fff;--ink:#13201c;--mute:#55645f;--line:#d5dfdb;--brand:#13223f;--crest:#0b6a55}
+@media (prefers-color-scheme:dark){:root{--bg:#0e1513;--panel:#16201d;--ink:#e4ece8;--mute:#9db0a9;--line:#2a3833;--crest:#3fbf9b}}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;
+  padding:max(24px,env(safe-area-inset-top)) 16px max(24px,env(safe-area-inset-bottom))}
+main{max-width:460px;margin:0 auto;display:grid;gap:16px}
+.hero{display:flex;gap:14px;align-items:center}.hero img{width:64px;height:64px;border-radius:15px;flex:none}
+h1{font-size:1.3rem;line-height:1.25;margin:0}.tag{color:var(--mute);margin:2px 0 0;font-size:.92rem}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.card h2{font-size:1.05rem;margin:0 0 8px}
+ol{margin:0;padding-left:22px}li{margin:6px 0}
+.btn{display:block;width:100%;text-align:center;border:0;border-radius:12px;padding:14px 16px;font:600 1.05rem/1.2 inherit;cursor:pointer;text-decoration:none}
+.pri{background:var(--crest);color:#fff}.sec{background:transparent;color:var(--crest);border:1.5px solid var(--crest);margin-top:10px}
+.note{color:var(--mute);font-size:.88rem;margin:8px 0 0}
+.k{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:0 6px;font-size:.9em;background:var(--bg)}
+[hidden]{display:none!important}
+</style></head>
+<body><main>
+  <div class="hero"><img src="icon-192.png" alt=""><div><h1>Stone Harbor Tradeworks Job Board</h1><p class="tag">Local jobs within 2 hours of Chesterfield and St. Clair Shores</p></div></div>
+
+  <section class="card" id="app" hidden>
+    <h2>Opening the board…</h2>
+    <a class="btn pri" id="openApp" href="https://claude.ai/artifact/NMrLjeQgfMXiiNiEDpo5pV">Open the board</a>
+    <p class="note">If Claude asks you to sign in, sign in once with the email the board was shared with. Next time it opens straight to the board.</p>
+  </section>
+
+  <section class="card" id="inapp" hidden>
+    <h2 id="inappH">Open this page in Safari or Chrome first</h2>
+    <p>You're in an app's built-in browser (like Gmail, Messages or the Claude app), which can't add icons to your home screen.</p>
+    <ol id="inappSteps"></ol>
+    <button class="btn sec" id="copy" type="button">Copy this page's link</button>
+  </section>
+
+  <section class="card" id="ios" hidden>
+    <h2>Add it to your iPhone home screen</h2>
+    <ol><li>Tap the <b>Share</b> button <span class="k">⬆︎</span> (bottom of the screen, or top right on iPad).</li>
+      <li>Scroll down and tap <b>Add to Home Screen</b>. Don't see it? Tap <b>Edit Actions</b> at the very bottom and add it.</li>
+      <li>Leave <b>Open as Web App</b> on if you see it, then tap <b>Add</b>.</li>
+      <li>Tap the <b>Stone Harbor</b> icon on your home screen.</li></ol>
+  </section>
+
+  <section class="card" id="android" hidden>
+    <h2>Add it to your home screen</h2>
+    <button class="btn pri" id="install" type="button" hidden>Install the app</button>
+    <ol id="androidSteps"><li>Tap the <b>⋮</b> menu at the top right of Chrome.</li><li>Tap <b>Add to Home screen</b> (or <b>Install app</b>), then <b>Install</b>.</li><li>Tap the <b>Stone Harbor</b> icon on your home screen.</li></ol>
+  </section>
+
+  <section class="card" id="desk" hidden>
+    <h2>Install on this computer</h2>
+    <button class="btn pri" id="installD" type="button" hidden>Install the app</button>
+    <p id="deskSteps">In Chrome or Edge, click the install icon at the right end of the address bar. On a Mac in Safari, choose <b>File → Add to Dock</b>.</p>
+  </section>
+
+  <section class="card" id="done" hidden><h2>✅ Installed</h2><p>Open <b>Stone Harbor</b> from your home screen or app list.</p></section>
+
+  <a class="btn sec" id="openWeb" href="https://claude.ai/artifact/NMrLjeQgfMXiiNiEDpo5pV" hidden>Just open the board</a>
+  <p class="note">The board is private: it only opens for people it's shared with, signed in to Claude. Stone Harbor Tradeworks.</p>
+</main>
+<script>
+(() => {
+  const BOARD = "https://claude.ai/artifact/NMrLjeQgfMXiiNiEDpo5pV", ua = navigator.userAgent, $ = id => document.getElementById(id);
+  const standalone = matchMedia("(display-mode: standalone)").matches || matchMedia("(display-mode: fullscreen)").matches || navigator.standalone === true;
+  const ios = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const android = /Android/.test(ua);
+  const inApp = /FBAN|FBAV|Instagram|Line\/|GSA\/|LinkedInApp|Snapchat|Twitter|; wv\)|Claude/i.test(ua) || (ios && !/Safari\//.test(ua));
+  const show = id => { $(id).hidden = false; };
+  try { if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js"); } catch (e) {}
+  if (standalone) {
+    show("app");
+    setTimeout(() => { location.href = BOARD; }, 350);
+    addEventListener("pageshow", e => { if (e.persisted) $("openApp").focus(); });
+    return;
+  }
+  show("openWeb");
+  if (inApp && (ios || android)) {
+    show("inapp"); $("inappH").textContent = "Open this page in " + (ios ? "Safari" : "Chrome") + " first";
+    $("inappSteps").innerHTML = ios
+      ? "<li>Tap the <b>⋯</b> or Share button in this app and choose <b>Open in Safari</b>.</li><li>No such button? Tap <b>Copy this page's link</b> below, open <b>Safari</b>, paste it into the address bar and go.</li><li>Then follow the steps to add it to your home screen.</li>"
+      : "<li>Tap the <b>⋮</b> menu in this app and choose <b>Open in Chrome</b>.</li><li>No such option? Tap <b>Copy this page's link</b> below, open <b>Chrome</b>, paste it and go.</li><li>Then tap <b>Install the app</b>.</li>";
+    $("copy").onclick = () => { const u = location.href.split("?")[0]; const ok = () => { $("copy").textContent = "Link copied. Paste it in " + (ios ? "Safari" : "Chrome"); };
+      try { navigator.clipboard.writeText(u).then(ok, () => prompt("Copy this link:", u)); } catch (e) { prompt("Copy this link:", u); } };
+    return;
+  }
+  if (ios) show("ios"); else if (android) show("android"); else show("desk");
+  let deferred = null;
+  addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferred = e; $("install").hidden = false; $("installD").hidden = false;
+    if (android) $("androidSteps").hidden = true; else $("deskSteps").hidden = true; });
+  const go = async () => { if (!deferred) return; deferred.prompt(); const r = await deferred.userChoice; deferred = null; if (r.outcome === "accepted") { show("done"); } };
+  $("install").onclick = go; $("installD").onclick = go;
+  addEventListener("appinstalled", () => { ["android", "desk", "ios"].forEach(id => $(id).hidden = true); show("done"); });
+})();
+</script>
+</body></html>
